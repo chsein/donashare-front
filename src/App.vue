@@ -18,7 +18,7 @@ import AppBar from "./components/AppBar.vue";
 
 <style scoped>
 .background {
-  background-image: url("./images/utexas.jpg");
+  background-image: url("/donashare-front/assets/images/utexas.jpg");
   background-size: cover;
   background-position: center;
   width: 100vw;
