@@ -39,17 +39,6 @@
         >
           <div class="logo-container1"></div>
           <div class="memo-container">
-            <!-- <textarea
-              v-model="memo"
-              placeholder="Add your memo"
-              style="
-                color: white;
-                text-align: center;
-                width: 90%;
-                height: 70%;
-                font-size: 3vw;
-              "
-            ></textarea> -->
             {{ cardData.memo }}
           </div>
           <div class="logo-container2">

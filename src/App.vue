@@ -1,6 +1,13 @@
 <template>
   <v-app>
-    <div class="background"></div>
+    <!-- <div class="background"></div> -->
+    <img
+      src="/images/utexas.jpg"
+      alt="Background Image"
+      class="background"
+      contain
+      cover
+    />
     <AppBar />
     <v-main>
       <router-view v-slot="{ Component }">
@@ -24,6 +31,7 @@ import AppBar from "./components/AppBar.vue";
   width: 100vw;
   height: 100vh;
   position: fixed;
+  object-fit: cover;
 }
 
 .background::after {
