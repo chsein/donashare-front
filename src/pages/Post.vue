@@ -123,7 +123,12 @@
     <v-dialog v-model="isActive" width="auto">
       <v-card min-width="200" max-width="400" title="Ready to share?">
         <template v-slot:actions>
-          <v-btn class="ms-auto" text="Yes" @click="submitData"></v-btn>
+          <v-btn
+            class="ms-auto"
+            text="Yes"
+            :to="{ name: 'Record' }"
+            @click="submitData"
+          ></v-btn>
         </template>
       </v-card>
     </v-dialog>
@@ -166,7 +171,7 @@ export default {
       console.log(imageFile.name);
       console.log(imageFile.file.name);
       const presignedUrlResponse = await axios.post(
-        "https://13.209.72.52.nip.io//cards/get-presigned-url",
+        "https://13.209.72.52.nip.io/cards/get-presigned-url",
         {
           fileName: imageFile.file.name,
         }
