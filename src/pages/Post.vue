@@ -126,7 +126,7 @@
           <v-btn
             class="ms-auto"
             text="Yes"
-            :to="{ name: 'Record' }"
+            :to="{ name: 'Main' }"
             @click="submitData"
           ></v-btn>
         </template>
