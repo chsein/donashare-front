@@ -62,7 +62,7 @@ export default {
 
     const getAllCards = async () => {
       try {
-        const response = await axios.get("http://13.209.72.52:8080/cards");
+        const response = await axios.get("https://13.209.72.52:8080/cards");
         cards.value = response.data;
 
         console.log("Fetched cards:", response.data); // 받아온 카드 데이터 출력
