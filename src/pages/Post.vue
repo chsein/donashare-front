@@ -171,7 +171,7 @@ export default {
       console.log(imageFile.name);
       console.log(imageFile.file.name);
       const presignedUrlResponse = await axios.post(
-        "https://13.209.72.52.nip.io/cards/get-presigned-url",
+        "https://54.180.147.68.nip.io/cards/get-presigned-url",
         {
           fileName: imageFile.file.name,
         }
@@ -195,7 +195,7 @@ export default {
         memo: memo.value,
       };
       const response = await axios.post(
-        "https://13.209.72.52.nip.io/cards/post",
+        "https://54.180.147.68.nip.io/cards/post",
         postData
       );
       console.log("Post created successfully:", response);

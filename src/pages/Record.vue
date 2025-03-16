@@ -62,7 +62,7 @@ export default {
 
     const getAllCards = async () => {
       try {
-        const response = await axios.get("https://13.209.72.52.nip.io/cards");
+        const response = await axios.get("https://54.180.147.68.nip.io/cards");
         cards.value = response.data;
 
         console.log("Fetched cards:", response.data); // 받아온 카드 데이터 출력
