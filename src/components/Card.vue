@@ -124,7 +124,6 @@ export default {
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 .flip-front {
   position: absolute;

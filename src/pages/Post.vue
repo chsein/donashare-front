@@ -113,13 +113,20 @@
               variant="text"
               color="white"
               style="font-size: 20px; margin-top: 20px; padding: 0"
-              @click="submitData"
+              @click="isActive = true"
               >Submit</v-btn
             >
           </v-col>
         </v-row>
       </div>
     </transition>
+    <v-dialog v-model="isActive" width="auto">
+      <v-card min-width="200" max-width="400" title="Ready to share?">
+        <template v-slot:actions>
+          <v-btn class="ms-auto" text="Yes" @click="submitData"></v-btn>
+        </template>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -132,6 +139,7 @@ export default {
   name: "Post",
   setup() {
     const isFlipped = ref(false);
+    const isActive = ref(false);
     const imageFile = ref("");
     const title = ref("");
     const memo = ref("");
@@ -149,39 +157,44 @@ export default {
         };
         reader.readAsDataURL(file);
         imageFile.file = file;
+        imageFile.name = file.name;
         console.log(file);
       }
     };
 
     const submitData = async () => {
-      const formData = new FormData();
-      console.log(imageFile.file);
-      formData.append("image", imageFile.file);
-      try {
-        const response = await axios.post(
-          "http://localhost:5000/upload",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data", // Set the correct content type for file uploads
-            },
-          }
-        );
-        console.log("Upload success:", response.data);
-        const imageUrl = response.data.fileUrl; // 서버에서 반환한 이미지 URL (예: "http://localhost:5000/uploads/...")
+      console.log(imageFile.name);
+      console.log(imageFile.file.name);
+      const presignedUrlResponse = await axios.post(
+        "http://13.209.72.52:8080/cards/get-presigned-url",
+        {
+          fileName: imageFile.file.name,
+        }
+      );
+      console.log("PresignedUpload success:", presignedUrlResponse);
 
-        const postData = {
-          imgUrl: imageUrl, // 업로드된 이미지 URL
-          title: title.value, // 제목
-          memo: memo.value, // 메모
-        };
+      const preSignedUrl = presignedUrlResponse.data;
+      console.log(preSignedUrl);
+      console.log(imageFile.file.type);
+      const uploadResponse = await axios.put(preSignedUrl, imageFile.file, {
+        headers: {
+          "Content-Type": imageFile.file.type, // 파일의 MIME 타입 설정
+        },
+      });
 
-        await axios.post("http://localhost:5000/cards/post", postData);
-
-        console.log("Post created successfully:"); // 게시물이 성공적으로 생성된 후 응답 출력
-      } catch (error) {
-        console.error("Error uploading file:", error);
-      }
+      console.log("Upload success:", uploadResponse);
+      const imageUrl = preSignedUrl.split("?")[0];
+      const postData = {
+        imgUrl: imageUrl,
+        title: title.value,
+        memo: memo.value,
+      };
+      const response = await axios.post(
+        "http://13.209.72.52:8080/cards/post",
+        postData
+      );
+      console.log("Post created successfully:", response);
+      isActive.value = false;
     };
 
     const beforeEnter = (el) => {
@@ -199,9 +212,11 @@ export default {
 
     return {
       isFlipped,
+      isActive,
       imageFile,
       title,
       memo,
+
       onImageUpload,
       toggleFlip,
       submitData,
